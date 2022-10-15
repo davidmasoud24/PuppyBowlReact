@@ -1,41 +1,42 @@
 import { useState, useEffect } from "react";
+import { fetchPlayerById, deletePuppyById } from "../API";
 import { useParams, useNavigate } from "react-router-dom";
 
-import { fetchPuppyById, deletePuppyById } from "../ajaxHelpers/puppies";
-
-import styles from "../styles/SingleDog.module.css";
-
-function SingleDog() {
+function SinglePlayer() {
+  const { id } = useParams();
   const navigate = useNavigate();
 
-  const { dogId } = useParams();
-
-  const [singleDog, setSingleDog] = useState({});
+  const [player, setPlayer] = useState({});
 
   useEffect(() => {
-    async function getPuppyById() {
-      // fetchPuppyById(params.dogId)
-      const puppy = await fetchPuppyById(dogId);
-      setSingleDog(puppy);
+    async function getSinglePlayer() {
+      const player = await fetchPlayerById(id);
+      setPlayer(player);
     }
-
-    getPuppyById();
+    getSinglePlayer();
   }, []);
 
-  async function handleDelete() {
-    const result = await deletePuppyById(singleDog.id);
-    console.log(result);
-    navigate("/");
-  }
+  console.log(player);
 
   return (
-    <div className={styles.background}>
-      <h4>{singleDog.name}</h4>
-      <h5>{singleDog.email}</h5>
-      <h5>{singleDog.isCute}</h5>
-      <button onClick={handleDelete}>Delete Puppy</button>
+    <div>
+      <img
+        style={{
+          height: "200px",
+        }}
+        src={player.imageUrl}
+      />
+      <h4>{player.name}</h4>
+      <button
+        onClick={async () => {
+          await deletePuppyById(player.id);
+          navigate(`/`);
+        }}
+      >
+        Delete Puppy
+      </button>
     </div>
   );
 }
 
-export default SingleDog;
+export default SinglePlayer;

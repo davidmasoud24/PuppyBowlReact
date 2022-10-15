@@ -1,47 +1,40 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "react-bootstrap/Button";
+import { fetchAllPlayers } from "../API";
 
-import { fetchPuppies } from "../ajaxHelpers/puppies";
-
-import styles from "../styles/Dogs.module.css";
-
-function Dogs() {
+function AllPlayers() {
   const navigate = useNavigate();
 
-  const [dogs, setDogs] = useState([]);
+  const [players, setPlayers] = useState([]);
 
   useEffect(() => {
-    async function getAllPuppies() {
-      const puppies = await fetchPuppies();
-      setDogs(puppies);
+    async function getAllPlayers() {
+      const players = await fetchAllPlayers();
+      setPlayers(players);
     }
-
-    getAllPuppies();
+    getAllPlayers();
   }, []);
 
   return (
-    <div
-      className={styles.background}
-      style={{
-        backgroundColor: "green",
-      }}
-    >
-      {dogs.map((dog) => {
-        console.log(dog);
+    <div>
+      <h4>Players:</h4>
+      {players.map((player) => {
         return (
-          <div key={dog.id}>
-            <h3>{dog.name}</h3>
-            <label>Age:</label>
-            <h4>{dog.age}</h4>
-            <Button
-              variant="primary"
+          <div>
+            <img
+              style={{
+                height: "200px",
+              }}
+              src={player.imageUrl}
+            />
+            <h4>{player.name}</h4>
+            <button
               onClick={() => {
-                navigate(`/dogs/${dog.id}`);
+                navigate(`/players/${player.id}`);
               }}
             >
               See Details
-            </Button>
+            </button>
           </div>
         );
       })}
@@ -49,4 +42,4 @@ function Dogs() {
   );
 }
 
-export default Dogs;
+export default AllPlayers;

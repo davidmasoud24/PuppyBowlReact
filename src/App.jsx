@@ -1,20 +1,19 @@
-import Dogs from "./components/AllPlayers";
-import NewPlayerForm from "./components/NewPlayerForm";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
-import NavBar from "./components/NavBar";
-import SinglePlayerForm from "./components/SinglePlayer";
+import { Routes, Route } from "react-router-dom";
+import "./App.css";
+import AllPlayers from "./components/AllPlayers";
+import CreatePuppyForm from "./components/CreatePuppyForm";
+import Nav from "./components/Nav";
+import SinglePlayer from "./components/SinglePlayer";
 
 function App() {
   return (
     <div className="App">
-      <NavBar />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Dogs />} />
-          <Route path="/NewPlayerForm" element={<NewPlayerForm />} />
-          <Route path="/dogs/:dogId" element={<SinglePlayerForm />} />
-        </Routes>
-      </BrowserRouter>
+      <Nav />
+      <Routes>
+        <Route path="/" element={<AllPlayers />} />
+        <Route path="/players/:id" element={<SinglePlayer />} />
+        <Route path="/createPup" element={<CreatePuppyForm />} />
+      </Routes>
     </div>
   );
 }
